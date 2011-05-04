@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This XML acts as the bridge between a specific Kanban and Jira -->
+<KanbanConfig id="teamBlackDailyKanban" userName="test" password="test" maxElementsPerStep="100" description="This is Team Black's Kanban" />		

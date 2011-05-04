@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This XML acts as the bridge between a specific Kanban and Jira -->
+<KanbanConfig id="testingKanbanTeamBlack" maxElementsPerStep="500" description="This is a testing kanban Config">
+	<!-- Projects from where the issues will be taken -->
+	<globalFilters>
+		<jql id="projectFilters">
+			project IN (BLACK, DM, STWCS, LSRVC, EAF) AND
+		</jql>
+		<jql id="assigneeFilters">
+			AND assignee IN (javasquez, jroberge, mmclean, dolczak, sbolduc, ddelautre, crapauzu)
+		</jql>		
+	</globalFilters>
+	<stepConfig name="Begin">
+		<jql>
+				$projectFilters $assigneeFilters status IN (Open, Reopened, "Awaiting Development", "Pending Resource Allocation") $assigneeFilters
+		</jql>
+	</stepConfig>
+	<stepConfig name="Step2">
+		<jql>
+				$projectFilters status IN ("In Development", "In Progress")
+		</jql>
+	</stepConfig>
+	<stepConfig name="Step3">
+		<jql>
+				status IN ("Peer Reviewing") $assigneeFilters
+		</jql>
+	</stepConfig>
+	<stepConfig name="End">
+		<jql>
+				$projectFilters status IN ("Ready for QA", "Integration Testing")
+		</jql>
+	</stepConfig>			
+</KanbanConfig>

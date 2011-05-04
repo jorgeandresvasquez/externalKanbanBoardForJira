@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="KanbanConfig">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="globalFilters" type="GlobalFilters" minOccurs="0" maxOccurs="1" />
+				<xs:element name="stepConfig" type="StepConfig" minOccurs="1" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="id" use="required" type="xs:string" />
+			<xs:attribute name="maxElementsPerStep" use="optional" type="xs:integer" />
+			<xs:attribute name="description" use="required" type="xs:string" />
+		</xs:complexType>
+		<xs:unique name="globalFilterId">
+			<xs:selector xpath="globalFilters/jql"/>
+			<xs:field xpath="@id"/>
+		</xs:unique>
+	</xs:element>
+
+	<xs:complexType name="StepConfig">
+		<xs:sequence>
+			<xs:element name="jql" type="xs:string" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="name" use="required" type="xs:string" />
+	</xs:complexType>
+
+	<xs:complexType name="GlobalFilters">
+		<xs:sequence>
+			 <xs:element name="jql" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="id" type="xs:string" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>		 
+			 </xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

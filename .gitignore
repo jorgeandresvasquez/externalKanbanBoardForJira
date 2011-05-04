@@ -1,0 +1,12 @@
+.classpath
+.project
+/test-classes
+etc/configExample.xml
+src/configExample.xml
+src/KanbanConfig.xsd
+war/WEB-INF/deploy
+war/WEB-INF/classes
+war/WEB-INF/etc
+war/kanbanboard
+src-gen
+src/com/atlassian

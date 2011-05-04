@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="externalKanbanBoardForJira" default="build">
+
+	<description>Kanban Jira board</description>
+	<property file="etc/dist/default.properties" />
+	<!--
+	<property name="axis.home" value="C:\Dev\Installed\axis-1_4"/>
+	-->
+	<property name="wsdl" value="etc/dist/jirasoapservice-v2.wsdl"/>
+	<property name="src-gen.dir" value="src-gen"/>
+	<property name="src.dir" value="src"/>
+	<property name="build.dir" value="build"/>
+	<property name="lib.dir" value="war\WEB-INF\lib"/>
+
+	<!--
+	<path id="axis.classpath">
+		<fileset dir="${axis.home}/lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>	
+	-->
+	<path id="axis.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="axis-wsdl4j-1.5.1.jar" />
+			<include name="axis-ant.jar" />
+			<include name="axis-1.3.jar" />
+			<include name="axis-jaxrpc.jar" />
+			<include name="axis-saaj.jar" />
+			<include name="jaxrpc.jar" />
+			<include name="commons-logging-1.0.4.jar" />
+			<include name="commons-discovery-0.2.jar" />
+		</fileset>
+	</path>		
+	
+	<taskdef resource="axis-tasks.properties" classpathref="axis.classpath" />
+	
+	<target name="init">
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${src-gen.dir}"/>
+
+		<delete includeemptydirs="true">
+			<fileset dir="${build.dir}" includes="**/*.*"/>
+		</delete>
+
+		<delete includeemptydirs="true">
+			<fileset dir="${src-gen.dir}" includes="**/*.*"/>
+		</delete>
+	</target>	
+	
+	<!-- TODO:  This is just an initial draft of the build including some String replacement, a lot still missing! -->
+	<target name="build">
+		<copy file="etc/dist/${jira.kanban.configFile}" tofile="src/${jira.kanban.configFile}"/>
+		<copy file="etc/dist/KanbanConfig.xsd" tofile="src/KanbanConfig.xsd"/>
+		<copy file="etc/dist/default.properties" tofile="src/default.properties"/>
+	</target>
+	
+	<!-- If this is not working then download the WSDL manually since probably ther certificate is not registered in the keystore -->
+	<target name="getWSDL">
+		<get src="${jira.url}/rpc/soap/jirasoapservice-v2?wsdl" dest="${wsdl}" skipexisting="true" />
+	</target>
+	
+	<target name="gen" depends="init">
+		<axis-wsdl2java output="${src-gen.dir}" verbose="true" url="${wsdl}" >
+			<mapping namespace="http://localhost:8090/rpc/soap/jirasoapservice-v2" package="com.atlassian.jira.rpc.soap.client" />
+		</axis-wsdl2java>
+	</target>
+	
+	<!-- This was implemented as a separate task since it will overwrite any local modifications that were made to jira soap classes, handle with care-->
+	<target name="overwriteJiraSOAPFiles" depends="gen">
+		<copy todir="${src.dir}">
+			<fileset dir="${src-gen.dir}"/>
+		</copy>
+		<delete dir="${src-gen.dir}"/>
+	</target>
+</project>

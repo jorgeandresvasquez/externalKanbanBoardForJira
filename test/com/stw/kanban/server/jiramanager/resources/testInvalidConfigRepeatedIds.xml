@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This XML acts as the bridge between a specific Kanban and Jira -->
+<KanbanConfig id="teamBlackDailyKanban" userName="temporal" password="temporal" maxElementsPerStep="100" description="This is Team Black's Kanban">
+	<!-- Projects from where the issues will be taken -->
+	<globalFilters>
+		<jql id="projectFilters">
+			project IN (BLACK, DM, STWCS, LSRVC, EAF) AND
+		</jql>
+		<jql id="projectFilters">
+			project IN (BLACK, DM, STWCS, LSRVC, EAF) AND
+		</jql>		
+	</globalFilters>
+	<stepConfig name="Not Started">
+		<jql>
+				$projectFilters status IN (Open, Reopened, "Awaiting Development", "Pending Resource Allocation")
+		</jql>
+	</stepConfig>
+	<stepConfig name="Development">
+		<jql>
+				$projectFilters status IN ("In Development", "In Progress")
+		</jql>
+	</stepConfig>
+	<stepConfig name="Code Review">
+		<jql>
+				$projectFilters status IN ("Peer Reviewing")
+		</jql>
+	</stepConfig>
+	<stepConfig name="Integration Testing">
+		<jql>
+				$projectFilters status IN ("Ready for QA", "Integration Testing")
+		</jql>
+	</stepConfig>			
+</KanbanConfig>
