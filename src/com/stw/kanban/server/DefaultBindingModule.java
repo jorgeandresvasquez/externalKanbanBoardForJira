@@ -43,11 +43,11 @@ public class DefaultBindingModule extends AbstractModule {
 		}
 		bind(KanbanBoardService.class).to(KanbanBoardServiceImpl.class);
 		bind(KanbanConfigDao.class).to(XmlKanbanConfigDao.class);
-//		if (mockJiraManager) {
+		if (mockJiraManager) {
 			bind(JiraManager.class).to(DummyJiraIssueManager.class);
-//		} else {
-//			bind(JiraManager.class).to(JiraManagerImpl.class);
-//		}
+		} else {
+			bind(JiraManager.class).to(JiraManagerImpl.class);
+		}
 		bind(JiraCache.class);
 		bind(AppConfig.class);
 		bind(JiraSoapService.class).toInstance(soapService);
