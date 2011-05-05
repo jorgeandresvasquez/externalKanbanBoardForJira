@@ -62,6 +62,23 @@ requires you to define the property:  jira.soap.url.  This sometimes has issues 
 with:  configExample.xml), the default.properties and KanbanConfig.xsd under src directory and eventually the compiler of Eclipse places them under classes directory.
 16. Right click on the project and select the option:  Google...GWT Compile (This only has to be done once) 
 
+Pushing Changes to Github
+-------------------------
+
+In order to be able to push changes into github you must be first authorized as a collaborator.
+Once this is done you have to configure git to use ssh in order to push the changes into remote following these steps:
+1.  In windows go to All Programs...Git...Git Bash
+2.  ssh-keygen -t rsa -C "youremail"  (youremail has to match the email that you used to create your account at github)
+	-Specify the location of the ssh public/private keys (normally the defaults will work fine)
+	-It is a better idea to always specify a paraphrase
+3.  Login into your github account and go under Account Settings...SSH Public Keys and add the new public key (open the file:  id_rsa.pub and copy/paste its contents into the key field in github)
+4.  Cd into the local directory where you imported the git repository previously.  At this point we need to modify the configuration of the remote since it was created for read only and now we need to 
+make sure that we can write too.  
+5.  git remote rm origin
+6.  git remote add origin git@github.com:jorgeandresvasquez/externalKanbanBoardForJira.git
+7.  git pull origin master (at this point make sure there are no merging conflicts and if so fix them and commit them)
+8.  git push origin
+
 Execution
 ---------
 
