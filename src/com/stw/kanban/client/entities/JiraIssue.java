@@ -3,7 +3,7 @@ package com.stw.kanban.client.entities;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
-public class JiraIssue implements Serializable {
+public class JiraIssue implements StickyNoteIssue, Serializable {
 
 	private Assignee assignee;
 	

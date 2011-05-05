@@ -10,3 +10,6 @@ war/WEB-INF/etc
 war/kanbanboard
 src-gen
 src/com/atlassian
+/build
+/.settings
+src/default.properties

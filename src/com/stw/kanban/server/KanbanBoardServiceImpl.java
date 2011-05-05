@@ -2,9 +2,9 @@ package com.stw.kanban.server;
 
 import com.atlassian.jira.rpc.exception.RemoteAuthenticationException;
 import com.google.inject.Inject;
-import com.stw.kanban.client.BoardRetrievalException;
 import com.stw.kanban.client.KanbanBoardService;
 import com.stw.kanban.client.entities.Board;
+import com.stw.kanban.client.exception.BoardRetrievalException;
 import com.stw.kanban.server.jiramanager.JiraManager;
 
 public class KanbanBoardServiceImpl implements	KanbanBoardService {

@@ -1,13 +1,10 @@
-package com.stw.kanban.client;
+package com.stw.kanban.client.exception;
 
 @SuppressWarnings("serial")
 public class BoardRetrievalException extends Exception {
 
 	private String message;
-	
-	public BoardRetrievalException() {}
-	
-	
+
 	public void setMessage(String message) {
 		this.message = message;
 	}

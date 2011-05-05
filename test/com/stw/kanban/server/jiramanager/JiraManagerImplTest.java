@@ -1,13 +1,21 @@
 package com.stw.kanban.server.jiramanager;
 
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.reset;
+import static org.easymock.EasyMock.verify;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import static org.easymock.EasyMock.*;
+
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
 import com.atlassian.jira.rpc.soap.beans.RemoteIssue;
 import com.atlassian.jira.rpc.soap.client.JiraSoapService;
 import com.stw.kanban.client.entities.Assignee;
@@ -18,6 +26,7 @@ import com.stw.kanban.client.entities.IssueStatus;
 import com.stw.kanban.client.entities.IssueType;
 import com.stw.kanban.client.entities.JiraIssue;
 import com.stw.kanban.client.entities.Project;
+import com.stw.kanban.client.entities.StickyNoteIssue;
 import com.stw.kanban.server.AppConfig;
 
 
@@ -224,11 +233,11 @@ public class JiraManagerImplTest {
 			assertEquals(currentStepConfig.getName(), currentBoardColumn.getName());
 		}
 		//The first column:  "Not Started" must have returned two JiraIssues
-		List<JiraIssue> jiraIssuesFirstColumn = board.getColumns().get(0).getIssues();
+		ArrayList<StickyNoteIssue> jiraIssuesFirstColumn = board.getColumns().get(0).getIssues();
 		assertEquals(2, jiraIssuesFirstColumn.size());
 		
 		//Compare the properties of the RemoteIssues returned by the mocks for the first column with those of the output JiraIssues
-		JiraIssue jiraIssue1_1 = jiraIssuesFirstColumn.get(0);
+		JiraIssue jiraIssue1_1 = (JiraIssue) jiraIssuesFirstColumn.get(0);
 		assertEquals(assigneeMap.get(PEDRO), jiraIssue1_1.getAssignee());
 		assertEquals(issuePriorityMap.get(HIGH), jiraIssue1_1.getIssuePriority());
 		assertEquals(issueStatusMap.get(RE_OPENED), jiraIssue1_1.getIssueStatus());
@@ -237,7 +246,7 @@ public class JiraManagerImplTest {
 		assertEquals(projectMap.get(PROJECT_1), jiraIssue1_1.getProject());
 		assertEquals("authentication module not working", jiraIssue1_1.getSummary());
 		
-		JiraIssue jiraIssue1_2 = jiraIssuesFirstColumn.get(1);
+		JiraIssue jiraIssue1_2 = (JiraIssue)jiraIssuesFirstColumn.get(1);
 		assertEquals(assigneeMap.get(MIKE), jiraIssue1_2.getAssignee());
 		assertEquals(issuePriorityMap.get(MEDIUM), jiraIssue1_2.getIssuePriority());
 		assertEquals(issueStatusMap.get(OPEN), jiraIssue1_2.getIssueStatus());
@@ -247,11 +256,11 @@ public class JiraManagerImplTest {
 		assertEquals("Integrate with Twitter", jiraIssue1_2.getSummary());
 		
 		//The second column:  "Development" must have returned two JiraIssues
-		List<JiraIssue> jiraIssuesSecondColumn = board.getColumns().get(1).getIssues();
+		ArrayList<StickyNoteIssue> jiraIssuesSecondColumn = board.getColumns().get(1).getIssues();
 		assertEquals(1, jiraIssuesSecondColumn.size());
 		
 		//Compare the properties of the RemoteIssues returned by the mocks for the second column with those of the output JiraIssues
-		JiraIssue jiraIssue2_1 = jiraIssuesSecondColumn.get(0);
+		JiraIssue jiraIssue2_1 = (JiraIssue)jiraIssuesSecondColumn.get(0);
 		assertEquals(assigneeMap.get(TOM), jiraIssue2_1.getAssignee());
 		assertEquals(issuePriorityMap.get(HIGH), jiraIssue2_1.getIssuePriority());
 		assertEquals(issueStatusMap.get(IN_PROGRESS), jiraIssue2_1.getIssueStatus());
@@ -261,9 +270,9 @@ public class JiraManagerImplTest {
 		assertEquals("Unable to connect to database", jiraIssue2_1.getSummary());
 		
 		//The third ("QA Testing") and last columns ("Ready for Release") must have returned 0 JiraIssues each
-		List<JiraIssue> jiraIssuesThirdColumn = board.getColumns().get(2).getIssues();
+		ArrayList<StickyNoteIssue> jiraIssuesThirdColumn = board.getColumns().get(2).getIssues();
 		assertEquals(0, jiraIssuesThirdColumn.size());
-		List<JiraIssue> jiraIssuesFourthColumn = board.getColumns().get(3).getIssues();
+		ArrayList<StickyNoteIssue> jiraIssuesFourthColumn = board.getColumns().get(3).getIssues();
 		assertEquals(0, jiraIssuesFourthColumn.size());
 		
 		verify(kanbanConfigDaoMock);

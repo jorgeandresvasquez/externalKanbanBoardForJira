@@ -8,6 +8,7 @@ public class Assignee implements Serializable{
 	private String name;
 	private String fullName;
 	private String email;
+	
 	public String getName() {
 		return name;
 	}

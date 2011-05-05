@@ -2,7 +2,10 @@
 <module rename-to='kanbanboard'>
 	<inherits name='com.google.gwt.user.User' />
 	<inherits name='com.google.gwt.user.theme.standard.Standard' />
-	<entry-point class='com.stw.kanban.client.KanbanBoardEntryPoint' />
+	
+	<inherits name="com.google.gwt.inject.Inject" />
+	
+	<entry-point class='com.stw.kanban.client.KanbanBoardModule' />
 
 	<source path='client' />
 	<source path='shared' />
