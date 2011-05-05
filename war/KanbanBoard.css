@@ -1,5 +1,11 @@
 /** Add css rules here for your application. */
 
+body {
+	margin: auto; /* center in viewport */
+	font-family: 'Century Gothic';
+}
+
+
 h1 {
   font-size: 2em;
   font-weight: bold;
@@ -33,17 +39,26 @@ h1 {
 
 .columnHeader {
 	text-align: center;
-	font-family: 'Century Gothic';
 	font-weight:bold;
-	font-size: 14px;	
+	font-size: 16px;
+	padding : 10px;
+	background-color: gray;
+}
+
+
+.columnOdd {
+	background-color:yellow;	
+}
+
+.columnEven {
+	background-color:blue;	
 }
 
 .stickyKey {
 	text-align: center;
-	font-family: 'Century Gothic';
 	font-weight:bold;
 	text-decoration:underline;
-	font-size: 10px;
+	font-size: 12px;
 }
 
 .summary {
@@ -57,14 +72,15 @@ h1 {
 .sticky {
   -webkit-box-shadow: #DDD 0px 1px 2px;
   position: relative;
-  background-color: teal;
+  background-color: #F4F39E;
   border-color: #DEE184;
-  margin: 2.5em 0px 0px 10px;
-  padding: 1.5em 1em;
+  margin: 10px;
+  margin-top : 20px;
+  padding: 15px;
   -webkit-box-shadow: 0px 1px 3px rgba(0,0,0,0.25);
   -moz-box-shadow: 0px 1px 3px rgba(0,0,0,0.25);
   box-shadow: 0px 1px 3px rgba(0,0,0,0.25);
-  font-family: 'Century Gothic';
+  
 }
 .sticky.taped:after {
   display: block;

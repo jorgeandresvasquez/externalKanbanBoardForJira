@@ -7,6 +7,7 @@ import java.util.List;
 
 @SuppressWarnings("serial")
 public class Board implements Serializable {
+	
 	private List<BoardColumn> columns = new ArrayList<BoardColumn>();
 	private String description;
 	
