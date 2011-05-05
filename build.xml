@@ -57,7 +57,7 @@
 	
 	<!-- If this is not working then download the WSDL manually since probably ther certificate is not registered in the keystore -->
 	<target name="getWSDL">
-		<get src="${jira.url}/rpc/soap/jirasoapservice-v2?wsdl" dest="${wsdl}" skipexisting="true" />
+		<get src="${jira.soap.url}?wsdl" dest="${wsdl}" skipexisting="true" />
 	</target>
 	
 	<target name="gen" depends="init">
