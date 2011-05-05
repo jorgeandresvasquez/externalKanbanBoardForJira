@@ -64,9 +64,12 @@ with:  configExample.xml), the default.properties and KanbanConfig.xsd under src
 
 Pushing Changes to Github
 -------------------------
+Note:  The following information can be complemented with:  http://help.github.com/remotes/.
 
 In order to be able to push changes into github you must be first authorized as a collaborator.
+
 Once this is done you have to configure git to use ssh in order to push the changes into remote following these steps:
+
 1.  In windows go to All Programs...Git...Git Bash
 2.  ssh-keygen -t rsa -C "youremail"  (youremail has to match the email that you used to create your account at github)
 	-Specify the location of the ssh public/private keys (normally the defaults will work fine)
