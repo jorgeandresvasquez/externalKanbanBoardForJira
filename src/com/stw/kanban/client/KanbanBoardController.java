@@ -6,6 +6,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -16,15 +17,19 @@ import com.stw.kanban.client.widget.view.KanbanBoardViewImpl;
 
 public class KanbanBoardController implements AbstractPresenter, ValueChangeHandler<String> {
 
+	private static final int REFRESH_INTERVAL = 30000; // ms
+	
 	private final EventBus eventBus;
 	private final KanbanBoardServiceAsync service;
 	private HasWidgets container;
 	private KanbanBoardViewImpl<Board> kanbanBoardView;
+	private KanbanBoardPresenter kanbanBoardPresenter;
 
 	@Inject
-	public KanbanBoardController(KanbanBoardServiceAsync rpcService, EventBus eventBus) {
+	public KanbanBoardController(KanbanBoardServiceAsync rpcService, EventBus eventBus, KanbanBoardPresenter kanbanBoardPresenter) {
 		this.service = rpcService;
 		this.eventBus = eventBus;
+		this.kanbanBoardPresenter = kanbanBoardPresenter;
 		bind();
 	}
 	
@@ -42,7 +47,19 @@ public class KanbanBoardController implements AbstractPresenter, ValueChangeHand
 	
 	private void bind() {
 		History.addValueChangeHandler(this);
+		// Setup timer to refresh list automatically.
+		initializeTimer();
 		//Bind all other handlers here, if any...
+	}
+	
+	private void initializeTimer() {
+		Timer refreshTimer = new Timer() {
+			@Override
+			public void run() {
+				kanbanBoardPresenter.loadView(kanbanBoardPresenter.getViewId());
+			}
+		};
+		refreshTimer.scheduleRepeating(REFRESH_INTERVAL);
 	}
 	
 	public void onValueChange(ValueChangeEvent<String> event) {
@@ -63,7 +80,8 @@ public class KanbanBoardController implements AbstractPresenter, ValueChangeHand
 	        			kanbanBoardView = new KanbanBoardViewImpl<Board>();
 	              
 	        		}
-	        		new KanbanBoardPresenter(service, eventBus, new KanbanBoardViewImpl<Board>()).execute(container);
+//	        		kanbanBoardPresenter = new KanbanBoardPresenter(service, eventBus, new KanbanBoardViewImpl<Board>());
+	        		kanbanBoardPresenter.execute(container);
 	        	}
 	    	});
 	      }

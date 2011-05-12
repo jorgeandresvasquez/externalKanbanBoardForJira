@@ -1,7 +1,13 @@
 package com.stw.kanban.client.widget.view;
 
+import java.util.Date;
+
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.stw.kanban.client.entities.Board;
 import com.stw.kanban.client.entities.BoardColumn;
 
@@ -21,14 +27,22 @@ import com.stw.kanban.client.entities.BoardColumn;
  * */
 public class KanbanBoardViewImpl<T> extends Composite implements KanbanBoardView<T> {
 		
-	private HorizontalPanel panel;
+	private VerticalPanel mainPanel = new VerticalPanel();
+	private HorizontalPanel boardColumnPanel;
 	private Presenter<T> presenter;
+	private Label lastUpdatedLabel;
 		
 	public KanbanBoardViewImpl() { 
-		panel = new HorizontalPanel();
-		initWidget(panel);
-		panel.setHeight("99%");
-		panel.setWidth("99%");
+		
+		boardColumnPanel = new HorizontalPanel();
+		initWidget(mainPanel);
+		mainPanel.add(boardColumnPanel);
+		mainPanel.setHeight("99%");
+		mainPanel.setWidth("99%");
+		boardColumnPanel.setHeight("100%");
+		boardColumnPanel.setWidth("100%");
+		lastUpdatedLabel = new Label();
+		mainPanel.add(lastUpdatedLabel);
 	}
 	
 	public void onLoadedBoard() {
@@ -39,13 +53,16 @@ public class KanbanBoardViewImpl<T> extends Composite implements KanbanBoardView
 		
 	@Override
 	public void setData(Board board) {
+		boardColumnPanel.clear();
 		int x = 0;
 		for (BoardColumn boardColumn : board.getColumns()) {
 			String style = (++x % 2 == 0) ? "columnEven" : "columnOdd";
 			BoardColumnWidget boardColumnWidget = new BoardColumnWidget(style);
 			boardColumnWidget.setData(boardColumn);
-			panel.add(boardColumnWidget);
+			boardColumnPanel.add(boardColumnWidget);
 		}
+		// Display timestamp showing last refresh.
+		lastUpdatedLabel.setText("Last update : " + DateTimeFormat.getFormat(PredefinedFormat.DATE_TIME_FULL).format(new Date()));
 	}
 
 	@Override

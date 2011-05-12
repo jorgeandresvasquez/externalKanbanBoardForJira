@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='kanbanboard'>
 	<inherits name='com.google.gwt.user.User' />
+	<set-property name="user.agent" value="gecko1_8"/>
 	<inherits name='com.google.gwt.user.theme.standard.Standard' />
 	
 	<inherits name="com.google.gwt.inject.Inject" />
