@@ -2,8 +2,10 @@ package com.stw.kanban.client.widget.view;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.inject.Inject;
 import com.stw.kanban.client.entities.Board;
 import com.stw.kanban.client.entities.BoardColumn;
+import com.stw.kanban.resources.KanbanBoardResources;
 
 /*
  * GWT Best Practices - Large Scale Application Development and MVP: 
@@ -23,8 +25,12 @@ public class KanbanBoardViewImpl<T> extends Composite implements KanbanBoardView
 		
 	private HorizontalPanel panel;
 	private Presenter<T> presenter;
+	private KanbanBoardResources resources;
 		
-	public KanbanBoardViewImpl() { 
+	@Inject
+	public KanbanBoardViewImpl(KanbanBoardResources resources) { 
+		this.resources = resources;
+		this.resources.style().ensureInjected();
 		panel = new HorizontalPanel();
 		initWidget(panel);
 		panel.setHeight("99%");
@@ -42,7 +48,7 @@ public class KanbanBoardViewImpl<T> extends Composite implements KanbanBoardView
 		int x = 0;
 		for (BoardColumn boardColumn : board.getColumns()) {
 			String style = (++x % 2 == 0) ? "columnEven" : "columnOdd";
-			BoardColumnWidget boardColumnWidget = new BoardColumnWidget(style);
+			BoardColumnWidget boardColumnWidget = new BoardColumnWidget(style, resources);
 			boardColumnWidget.setData(boardColumn);
 			panel.add(boardColumnWidget);
 		}

@@ -1,5 +1,6 @@
 package com.stw.kanban.client.widget.presenter;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
@@ -26,6 +27,7 @@ public class KanbanBoardPresenter implements AbstractPresenter, KanbanBoardView.
 //	}
 
 	private final Label loadingLabel = new Label("Loading");
+	@Inject
 	private final KanbanBoardServiceAsync service;
 	private final EventBus eventBus;
 //	private Display display;

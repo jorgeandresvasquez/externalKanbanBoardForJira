@@ -1,0 +1,13 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"  
+	xmlns:kanban="urn:import:com.stw.kanban.client.widget.view" >
+
+	<ui:with field="res" type="com.stw.kanban.resources.KanbanBoardResources" />
+	
+	<g:VerticalPanel addStyleNames="{res.style.stickyNote}">
+			<g:Composite ui:field="stickyHeaderWidget" /> 
+			<g:Label styleName="{res.style.stickyNote}" ui:field="summaryText" />
+			<g:Label styleName="{res.style.stickyNote}" ui:field="assignee" />
+	</g:VerticalPanel>
+</ui:UiBinder> 
