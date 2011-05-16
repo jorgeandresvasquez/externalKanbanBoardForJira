@@ -4,13 +4,13 @@ import java.util.Date;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.inject.Inject;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.inject.Inject;
 import com.stw.kanban.client.entities.Board;
 import com.stw.kanban.client.entities.BoardColumn;
 import com.stw.kanban.resources.KanbanBoardResources;
@@ -101,6 +101,16 @@ public class KanbanBoardViewImpl<T> extends Composite implements KanbanBoardView
 			loadingMask.setVisible(false);
 			boardColumnPanel.setVisible(true);
 		}
+	}
+	
+	@Override
+	public void setViewTitle(String title) {
+		Window.setTitle(title);
+	}
+	
+	@Override
+	public void loadError(String errorMessage) {
+		Window.alert("An error occurd: " + errorMessage);
 	}
 	
 	

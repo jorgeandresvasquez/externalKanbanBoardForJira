@@ -1,7 +1,6 @@
 package com.stw.kanban.client.widget.presenter;
 
 import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -59,8 +58,7 @@ public class KanbanBoardPresenter implements AbstractPresenter, KanbanBoardView.
 	@Override
 	public void execute(HasWidgets container) {
 		container.clear();
-//		container.add(display.asWidget());
-		container.add(view.asWidget());
+		container.add(view.asWidget()); 	// container.add(display.asWidget()); 
 	}
 	
 	public void loadView(String id) {
@@ -75,16 +73,14 @@ public class KanbanBoardPresenter implements AbstractPresenter, KanbanBoardView.
 			@Override
 			public void onFailure(Throwable caught) { 
 				view.maskView(false);
-				Window.alert("Error retrieving data!");
+				view.loadError(caught.getMessage());
 			}
 		});
 	}
 	
 	public void loadKanbanBoardView(Board board) {
 		kanbanBoard = board;
-		Window.setTitle(kanbanBoard.getDescription());
-		
-//		KanbanBoardPresenter.this.display.setData(board);
+		view.setViewTitle(kanbanBoard.getDescription()); 	// KanbanBoardPresenter.this.display.setData(board);
 		view.setData(board);
 	}
 
@@ -92,6 +88,7 @@ public class KanbanBoardPresenter implements AbstractPresenter, KanbanBoardView.
 	public void onLoadedBoard() {
 		view.maskView(false);
 	}
+
 
 	public String getViewId() {
 		return viewId;

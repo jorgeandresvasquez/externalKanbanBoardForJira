@@ -15,6 +15,10 @@ public interface KanbanBoardView<T> {
 	
 	void maskView(boolean show);
 	
+	void setViewTitle(String title);
+	
+	void loadError(String errorMessage);
+	
 	Widget asWidget();
 	
 }
