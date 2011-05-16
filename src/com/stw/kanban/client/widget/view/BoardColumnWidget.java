@@ -17,6 +17,8 @@ import com.stw.kanban.client.widget.gin.BoardColumnStyle;
 import com.stw.kanban.client.widget.view.StickyNoteWidget.StickyNoteWidgetUiBinder;
 import com.stw.kanban.resources.KanbanBoardResources;
 
+/* This widget is a widget implemented without a UIBinder due to its dynamic nature. 
+ * Since we don't know how many sticky notes that will be loaded from start. */
 public class BoardColumnWidget extends Composite {
 	
 	private final Label columnName;

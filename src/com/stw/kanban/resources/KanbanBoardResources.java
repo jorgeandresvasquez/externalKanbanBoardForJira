@@ -18,6 +18,9 @@ public interface KanbanBoardResources extends ClientBundle {
 	@Source("whiteBlock.png")
 	ImageResource emptyImageWhite();
 	
+	@Source("ajaxLoader.gif")
+	ImageResource loadingImage();
+	
 	public interface KanbanboardCssResources extends CssResource {
 		//Sticky Note Css resources.
 		String stickyNote();

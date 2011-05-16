@@ -1,13 +1,10 @@
 package com.stw.kanban.client.widget.presenter;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.stw.kanban.client.KanbanBoardServiceAsync;
 import com.stw.kanban.client.entities.Board;
@@ -26,7 +23,6 @@ public class KanbanBoardPresenter implements AbstractPresenter, KanbanBoardView.
 //		void setData(Board data);
 //	}
 
-	private final Label loadingLabel = new Label("Loading");
 	@Inject
 	private KanbanBoardServiceAsync service;
 	private final EventBus eventBus;
@@ -51,6 +47,7 @@ public class KanbanBoardPresenter implements AbstractPresenter, KanbanBoardView.
 		this.service = rpcService;
 		this.eventBus = eventBus;
 		this.view = view;
+		
 		bind();
 		loadView(viewId);
 	}
@@ -67,14 +64,17 @@ public class KanbanBoardPresenter implements AbstractPresenter, KanbanBoardView.
 	}
 	
 	public void loadView(String id) {
+		view.maskView(true);
 		service.getKanbanBoard(id, new AsyncCallback<Board>() {
 			@Override
 			public void onSuccess(Board board) {
 				loadKanbanBoardView(board);
+				onLoadedBoard();
 			}
 			
 			@Override
 			public void onFailure(Throwable caught) { 
+				view.maskView(false);
 				Window.alert("Error retrieving data!");
 			}
 		});
@@ -86,19 +86,15 @@ public class KanbanBoardPresenter implements AbstractPresenter, KanbanBoardView.
 		
 //		KanbanBoardPresenter.this.display.setData(board);
 		view.setData(board);
-		
-		loadingLabel.setVisible(false);
 	}
 
 	@Override
 	public void onLoadedBoard() {
-		// TODO Auto-generated method stub	
+		view.maskView(false);
 	}
 
 	public String getViewId() {
 		return viewId;
 	}
-	
-
 	
 }

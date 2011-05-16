@@ -6,6 +6,8 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.inject.Inject;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -33,6 +35,8 @@ public class KanbanBoardViewImpl<T> extends Composite implements KanbanBoardView
 	private HorizontalPanel boardColumnPanel;
 	private Presenter<T> presenter;
 	private Label lastUpdatedLabel;
+	private Image loadingMask;
+	
 	@Inject
 	private KanbanBoardResources resources;
 		
@@ -44,8 +48,13 @@ public class KanbanBoardViewImpl<T> extends Composite implements KanbanBoardView
 		mainPanel = new VerticalPanel();
 		initWidget(mainPanel);
 		
+		loadingMask = new Image(resources.loadingImage());
+		mainPanel.add(loadingMask);
+		loadingMask.setVisible(false);
+		
 		boardColumnPanel = new HorizontalPanel();
 		mainPanel.add(boardColumnPanel);
+		boardColumnPanel.setVisible(false);
 		
 		mainPanel.setHeight("99%");
 		mainPanel.setWidth("99%");
@@ -64,6 +73,7 @@ public class KanbanBoardViewImpl<T> extends Composite implements KanbanBoardView
 		
 	@Override
 	public void setData(Board board) {
+		
 		boardColumnPanel.clear();
 		int x = 0;
 		for (BoardColumn boardColumn : board.getColumns()) {
@@ -79,6 +89,18 @@ public class KanbanBoardViewImpl<T> extends Composite implements KanbanBoardView
 	@Override
 	public void setPresenter(Presenter<T> presenter) {
 		this.presenter = presenter;
+	}
+
+	@Override
+	public void maskView(boolean mask) {
+		if(mask) {
+			boardColumnPanel.setVisible(false);
+			loadingMask.setVisible(true);
+		}
+		else {
+			loadingMask.setVisible(false);
+			boardColumnPanel.setVisible(true);
+		}
 	}
 	
 	

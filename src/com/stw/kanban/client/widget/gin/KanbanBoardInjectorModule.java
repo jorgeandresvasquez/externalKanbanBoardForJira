@@ -40,7 +40,7 @@ public class KanbanBoardInjectorModule extends AbstractGinModule {
 		bind(StickyNoteWidget.StickyNoteWidgetUiBinder.class).in(Singleton.class); 
 		bind(ClientBundle.class).to(KanbanBoardResources.class);
 		
-		//Constant bindings
+		//Constant default bindings
 		bindConstant().annotatedWith(BoardColumnStyle.class).to("sticky taped");
 		
 		//Interface binding

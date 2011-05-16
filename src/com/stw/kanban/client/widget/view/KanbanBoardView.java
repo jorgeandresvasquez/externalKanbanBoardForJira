@@ -13,6 +13,8 @@ public interface KanbanBoardView<T> {
 	
 	void setData(Board board);
 	
+	void maskView(boolean show);
+	
 	Widget asWidget();
 	
 }
