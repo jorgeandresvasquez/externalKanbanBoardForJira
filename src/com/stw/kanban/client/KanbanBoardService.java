@@ -7,6 +7,7 @@ import com.stw.kanban.client.entities.ConfigOptions;
 
 @RemoteServiceRelativePath("GWT.rpc")
 public interface KanbanBoardService extends RemoteService {
+	//TODO A more useful exception handling that makes sense in the GUI! 
 	Board getKanbanBoard(String id) throws Exception;
 	
 	ConfigOptions getConfig();

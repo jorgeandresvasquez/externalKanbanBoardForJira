@@ -5,7 +5,9 @@ import com.stw.kanban.client.entities.Board;
 import com.stw.kanban.client.entities.ConfigOptions;
 
 public interface KanbanBoardServiceAsync {
-	void getKanbanBoard(String id, AsyncCallback<Board> callback) throws IllegalArgumentException;
+
+	void getKanbanBoard(String id, AsyncCallback<Board> callback);
 	
 	void getConfig(AsyncCallback<ConfigOptions> callback);
+
 }

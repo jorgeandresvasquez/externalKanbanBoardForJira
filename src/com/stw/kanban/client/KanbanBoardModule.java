@@ -16,9 +16,10 @@ public class KanbanBoardModule implements EntryPoint {
 		
 		// We only need to inject via the gin injector on the top level view. All injections lower 
 		// in the view hierarchy is injected automatically using bindings in the KanbanBoardInjectorModule. 
-		RootPanel.get().add(ginInjector.getKanbanBoardView().asWidget());	
+		RootPanel.get().add(ginInjector.getKanbanBoardView().asWidget());
+
 		KanbanBoardController controller = ginInjector.getKanbanBoardController();
-		
+
 		controller.execute(RootPanel.get());
 	}
 	

@@ -13,3 +13,5 @@ src/com/atlassian
 /build
 /.settings
 src/default.properties
+.gwt
+.metadata

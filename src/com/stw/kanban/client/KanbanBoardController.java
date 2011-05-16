@@ -16,20 +16,25 @@ import com.stw.kanban.client.entities.ConfigOptions;
 import com.stw.kanban.client.widget.presenter.AbstractPresenter;
 import com.stw.kanban.client.widget.presenter.KanbanBoardPresenter;
 import com.stw.kanban.client.widget.view.KanbanBoardViewImpl;
+import com.stw.kanban.resources.KanbanBoardResources;
 
 public class KanbanBoardController implements AbstractPresenter, ValueChangeHandler<String> {
 
 	private final EventBus eventBus;
-	private final KanbanBoardServiceAsync service;
+	@Inject
+	private KanbanBoardServiceAsync service;
 	private HasWidgets container;
 	private KanbanBoardViewImpl<Board> kanbanBoardView;
-	private KanbanBoardPresenter kanbanBoardPresenter;
+	@Inject
+	private final KanbanBoardResources resources;
+	@Inject
+	KanbanBoardPresenter kanbanBoardPresenter;
 
 	@Inject
-	public KanbanBoardController(KanbanBoardServiceAsync rpcService, EventBus eventBus, KanbanBoardPresenter kanbanBoardPresenter) {
-		this.service = rpcService;
+	public KanbanBoardController(EventBus eventBus, KanbanBoardResources resources) {
 		this.eventBus = eventBus;
-		this.kanbanBoardPresenter = kanbanBoardPresenter;
+		this.resources = resources;
+		this.resources.style().ensureInjected();
 		bind();
 	}
 	
@@ -89,10 +94,9 @@ public class KanbanBoardController implements AbstractPresenter, ValueChangeHand
 	        	public void onSuccess() {
 	        		// lazily initialize our views, and keep them around to be reused
 	        		if (kanbanBoardView == null) {
-	        			kanbanBoardView = new KanbanBoardViewImpl<Board>();
+	        			kanbanBoardView = new KanbanBoardViewImpl<Board>(resources);
 	              
 	        		}
-//	        		kanbanBoardPresenter = new KanbanBoardPresenter(service, eventBus, new KanbanBoardViewImpl<Board>());
 	        		kanbanBoardPresenter.execute(container);
 	        	}
 	    	});
@@ -103,8 +107,13 @@ public class KanbanBoardController implements AbstractPresenter, ValueChangeHand
 	    }
 	} 
 	
-	
-/*	
+
+/*	Would we have chosen to not use the generic KannabBoardView, the onValueChange method would
+ *  look something like this. 
+ *  
+ *  Note: Observe that in the below code, the presenter keeps track of the views instead of the
+ *  generic way where each view keeps track of it's presenter. In other words, the controller 
+ *  instantiates the view in the code above and the presenter in the code below.
  * 
  * 	@Override
  * 	public void onValueChange(ValueChangeEvent<String> event) {

@@ -6,10 +6,12 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.inject.Inject;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.stw.kanban.client.entities.Board;
 import com.stw.kanban.client.entities.BoardColumn;
+import com.stw.kanban.resources.KanbanBoardResources;
 
 /*
  * GWT Best Practices - Large Scale Application Development and MVP: 
@@ -27,20 +29,29 @@ import com.stw.kanban.client.entities.BoardColumn;
  * */
 public class KanbanBoardViewImpl<T> extends Composite implements KanbanBoardView<T> {
 		
-	private VerticalPanel mainPanel = new VerticalPanel();
+	private VerticalPanel mainPanel;
 	private HorizontalPanel boardColumnPanel;
 	private Presenter<T> presenter;
 	private Label lastUpdatedLabel;
+	@Inject
+	private KanbanBoardResources resources;
 		
-	public KanbanBoardViewImpl() { 
+	@Inject		
+	public KanbanBoardViewImpl(KanbanBoardResources resources) {
+		this.resources = resources;
+		this.resources.style().ensureInjected();
+	
+		mainPanel = new VerticalPanel();
+		initWidget(mainPanel);
 		
 		boardColumnPanel = new HorizontalPanel();
-		initWidget(mainPanel);
 		mainPanel.add(boardColumnPanel);
+		
 		mainPanel.setHeight("99%");
 		mainPanel.setWidth("99%");
 		boardColumnPanel.setHeight("100%");
 		boardColumnPanel.setWidth("100%");
+		
 		lastUpdatedLabel = new Label();
 		mainPanel.add(lastUpdatedLabel);
 	}
@@ -56,8 +67,8 @@ public class KanbanBoardViewImpl<T> extends Composite implements KanbanBoardView
 		boardColumnPanel.clear();
 		int x = 0;
 		for (BoardColumn boardColumn : board.getColumns()) {
-			String style = (++x % 2 == 0) ? "columnEven" : "columnOdd";
-			BoardColumnWidget boardColumnWidget = new BoardColumnWidget(style);
+			String style = (++x % 2 == 0) ? resources.style().borderColumnEven() : resources.style().borderColumnOdd();
+			BoardColumnWidget boardColumnWidget = new BoardColumnWidget(style, resources);
 			boardColumnWidget.setData(boardColumn);
 			boardColumnPanel.add(boardColumnWidget);
 		}

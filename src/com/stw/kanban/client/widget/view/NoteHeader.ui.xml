@@ -1,0 +1,12 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	
+	<ui:with field="res" type="com.stw.kanban.resources.KanbanBoardResources" />
+	
+	<g:HorizontalPanel styleName="{res.style.stickyNoteHeader}" ui:field="panel">
+		<g:Label styleName="{res.style.stickyNoteKey}" ui:field="title" />
+		<g:Image ui:field="typeImage" />
+		<g:Image ui:field="priorityImage" />
+	</g:HorizontalPanel>
+</ui:UiBinder> 
