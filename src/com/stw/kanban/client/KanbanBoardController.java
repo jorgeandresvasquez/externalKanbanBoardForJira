@@ -8,17 +8,17 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.stw.kanban.client.entities.Board;
+import com.stw.kanban.client.entities.ConfigOptions;
 import com.stw.kanban.client.widget.presenter.AbstractPresenter;
 import com.stw.kanban.client.widget.presenter.KanbanBoardPresenter;
 import com.stw.kanban.client.widget.view.KanbanBoardViewImpl;
 
 public class KanbanBoardController implements AbstractPresenter, ValueChangeHandler<String> {
 
-	private static final int REFRESH_INTERVAL = 30000; // ms
-	
 	private final EventBus eventBus;
 	private final KanbanBoardServiceAsync service;
 	private HasWidgets container;
@@ -48,18 +48,30 @@ public class KanbanBoardController implements AbstractPresenter, ValueChangeHand
 	private void bind() {
 		History.addValueChangeHandler(this);
 		// Setup timer to refresh list automatically.
-		initializeTimer();
+		service.getConfig(new AsyncCallback<ConfigOptions>() {
+			
+			@Override
+			public void onSuccess(ConfigOptions result) {
+				initializeTimer(result.getRefreshInverval());
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Error fetching refreshInterval value");
+			}
+		});
+		
 		//Bind all other handlers here, if any...
 	}
 	
-	private void initializeTimer() {
+	private void initializeTimer(int refreshInterval) {
 		Timer refreshTimer = new Timer() {
 			@Override
 			public void run() {
 				kanbanBoardPresenter.loadView(kanbanBoardPresenter.getViewId());
 			}
 		};
-		refreshTimer.scheduleRepeating(REFRESH_INTERVAL);
+		refreshTimer.scheduleRepeating(refreshInterval);
 	}
 	
 	public void onValueChange(ValueChangeEvent<String> event) {

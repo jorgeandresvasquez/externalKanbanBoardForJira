@@ -9,13 +9,16 @@ public class AppConfig {
 	private String password;
 	private String jiraSoapUrl;
 	private boolean skipSslValidation;
+	private int refreshInterval;
 	
 	@Inject
-	public AppConfig(@Named("jira.soap.userName") String userName, @Named("jira.soap.password") String password, @Named("jira.soap.url") String jiraSoapUrl, @Named("jira.soap.skipSslValidation") boolean skipSslValidation) {
+	public AppConfig(@Named("jira.soap.userName") String userName, @Named("jira.soap.password") String password, @Named("jira.soap.url") String jiraSoapUrl, 
+			@Named("jira.soap.skipSslValidation") boolean skipSslValidation, @Named("refreshInterval") int refreshInterval) {
 		this.userName = userName;
 		this.password = password;
 		this.jiraSoapUrl = jiraSoapUrl;
 		this.skipSslValidation = skipSslValidation;
+		this.refreshInterval = refreshInterval;
 	}
 
 
@@ -38,8 +41,8 @@ public class AppConfig {
 		return skipSslValidation;
 	}
 	
-	
-	
-	
+	public int getRefreshInterval() {
+		return refreshInterval;
+	}
 	
 }

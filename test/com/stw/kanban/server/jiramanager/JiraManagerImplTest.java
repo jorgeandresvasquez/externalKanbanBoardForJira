@@ -66,7 +66,7 @@ public class JiraManagerImplTest {
 	@Before
 	public void setup() {
 		//Create mock objects
-		appConfig = new AppConfig("username", "password", "aUrl", true);
+		appConfig = new AppConfig("username", "password", "aUrl", true, 30000);
 		kanbanConfigDaoMock = createMock(KanbanConfigDao.class);
 		jiraCacheMock = createMock(JiraCache.class);
 		soapServiceMock = createMock(JiraSoapService.class);

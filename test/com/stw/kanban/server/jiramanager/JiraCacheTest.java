@@ -50,7 +50,7 @@ public class JiraCacheTest {
 	@Before
 	public void setup() {
 		//Create mock objects
-		appConfig = new AppConfig("username", "password", "aUrl", true);
+		appConfig = new AppConfig("username", "password", "aUrl", true, 30000);
 		soapServiceMock = createMock(JiraSoapService.class);
 		jiraCache = new JiraCache(soapServiceMock, appConfig);
 		reset(soapServiceMock);

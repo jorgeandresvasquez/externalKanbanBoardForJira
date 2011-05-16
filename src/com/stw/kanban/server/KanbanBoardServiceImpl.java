@@ -4,15 +4,18 @@ import com.atlassian.jira.rpc.exception.RemoteAuthenticationException;
 import com.google.inject.Inject;
 import com.stw.kanban.client.KanbanBoardService;
 import com.stw.kanban.client.entities.Board;
+import com.stw.kanban.client.entities.ConfigOptions;
 import com.stw.kanban.client.exception.BoardRetrievalException;
 import com.stw.kanban.server.jiramanager.JiraManager;
 
 public class KanbanBoardServiceImpl implements	KanbanBoardService {
 	private JiraManager jiraManager;
+	private AppConfig appConfig;
 	
 	@Inject
-	public KanbanBoardServiceImpl(JiraManager jiraManager) {
+	public KanbanBoardServiceImpl(JiraManager jiraManager, AppConfig appConfig) {
 		this.jiraManager = jiraManager;
+		this.appConfig = appConfig;
 	}
 	
 	@Override
@@ -28,6 +31,13 @@ public class KanbanBoardServiceImpl implements	KanbanBoardService {
 			}
 			throw exception;
 		}  
+	}
+	
+	@Override
+	public ConfigOptions getConfig() {
+		ConfigOptions configOptions = new ConfigOptions();
+		configOptions.setRefreshInverval(appConfig.getRefreshInterval());
+		return configOptions;
 	}
 	
 }
