@@ -31,7 +31,8 @@ public class KanbanBoardController implements AbstractPresenter, ValueChangeHand
 	KanbanBoardPresenter kanbanBoardPresenter;
 
 	@Inject
-	public KanbanBoardController(EventBus eventBus, KanbanBoardResources resources) {
+	public KanbanBoardController(KanbanBoardServiceAsync rpcService, EventBus eventBus, KanbanBoardResources resources) {
+		this.service = rpcService;
 		this.eventBus = eventBus;
 		this.resources = resources;
 		this.resources.style().ensureInjected();
