@@ -25,5 +25,11 @@ public interface KanbanBoardResources extends ClientBundle {
 		String stickyNoteHeader();
 		
 		String stickyNoteKey();
+		
+		String borderColumnHeader();
+		
+		String borderColumnOdd();
+		
+		String borderColumnEven();
 	}
 }

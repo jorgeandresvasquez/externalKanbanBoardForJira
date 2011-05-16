@@ -28,11 +28,12 @@ public class KanbanBoardPresenter implements AbstractPresenter, KanbanBoardView.
 
 	private final Label loadingLabel = new Label("Loading");
 	@Inject
-	private final KanbanBoardServiceAsync service;
+	private KanbanBoardServiceAsync service;
 	private final EventBus eventBus;
 //	private Display display;
 	private KanbanBoardView<Board> view;
 	private Board kanbanBoard;
+	private String viewId;
 	
 //	@Inject
 //	public KanbanBoardPresenter(KanbanBoardServiceAsync rpcService, EventBus eventBus, Display display) {
@@ -46,12 +47,12 @@ public class KanbanBoardPresenter implements AbstractPresenter, KanbanBoardView.
 	
 	@Inject
 	public KanbanBoardPresenter(KanbanBoardServiceAsync rpcService, EventBus eventBus, KanbanBoardView<Board> view) {
-		String id = Location.getParameter("id");
+		viewId = Location.getParameter("id");
 		this.service = rpcService;
 		this.eventBus = eventBus;
 		this.view = view;
 		bind();
-		loadView(id);
+		loadView(viewId);
 	}
 	
 	public void bind () {
@@ -93,5 +94,11 @@ public class KanbanBoardPresenter implements AbstractPresenter, KanbanBoardView.
 	public void onLoadedBoard() {
 		// TODO Auto-generated method stub	
 	}
+
+	public String getViewId() {
+		return viewId;
+	}
+	
+
 	
 }

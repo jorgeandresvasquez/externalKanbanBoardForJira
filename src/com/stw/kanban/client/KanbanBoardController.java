@@ -6,6 +6,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -17,6 +18,8 @@ import com.stw.kanban.resources.KanbanBoardResources;
 
 public class KanbanBoardController implements AbstractPresenter, ValueChangeHandler<String> {
 
+	private static final int REFRESH_INTERVAL = 30000; // ms
+	
 	private final EventBus eventBus;
 	@Inject
 	private KanbanBoardServiceAsync service;
@@ -24,6 +27,8 @@ public class KanbanBoardController implements AbstractPresenter, ValueChangeHand
 	private KanbanBoardViewImpl<Board> kanbanBoardView;
 	@Inject
 	private final KanbanBoardResources resources;
+	@Inject
+	KanbanBoardPresenter kanbanBoardPresenter;
 
 	@Inject
 	public KanbanBoardController(EventBus eventBus, KanbanBoardResources resources) {
@@ -47,7 +52,19 @@ public class KanbanBoardController implements AbstractPresenter, ValueChangeHand
 	
 	private void bind() {
 		History.addValueChangeHandler(this);
+		// Setup timer to refresh list automatically.
+		initializeTimer();
 		//Bind all other handlers here, if any...
+	}
+	
+	private void initializeTimer() {
+		Timer refreshTimer = new Timer() {
+			@Override
+			public void run() {
+				kanbanBoardPresenter.loadView(kanbanBoardPresenter.getViewId());
+			}
+		};
+		refreshTimer.scheduleRepeating(REFRESH_INTERVAL);
 	}
 	
 	public void onValueChange(ValueChangeEvent<String> event) {
@@ -68,7 +85,7 @@ public class KanbanBoardController implements AbstractPresenter, ValueChangeHand
 	        			kanbanBoardView = new KanbanBoardViewImpl<Board>(resources);
 	              
 	        		}
-	        		new KanbanBoardPresenter(service, eventBus, new KanbanBoardViewImpl<Board>(resources)).execute(container);
+	        		kanbanBoardPresenter.execute(container);
 	        	}
 	    	});
 	      }

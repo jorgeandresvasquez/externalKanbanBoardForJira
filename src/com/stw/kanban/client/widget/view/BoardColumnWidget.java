@@ -37,12 +37,16 @@ public class BoardColumnWidget extends Composite {
 		stickyNotes = new ArrayList<StickyNoteWidget>();
 		
 		columnName = new Label();
-		columnName.setStylePrimaryName("columnHeader");
+		columnName.setStylePrimaryName(resources.style().borderColumnHeader());
 		
 		panel.add(columnName);
 		panel.add(new HTML("<br/>"));
 
-		panel.addStyleName(styleName);
+		if (styleName.equals(resources.style().borderColumnEven())) {
+			panel.addStyleName(resources.style().borderColumnEven());
+		} else {
+			panel.addStyleName(resources.style().borderColumnOdd());
+		}
 		binder = GWT.create(StickyNoteWidgetUiBinder.class);
 	}
 	
