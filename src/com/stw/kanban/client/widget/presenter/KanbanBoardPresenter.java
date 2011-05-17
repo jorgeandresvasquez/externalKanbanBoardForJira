@@ -28,7 +28,7 @@ public class KanbanBoardPresenter implements AbstractPresenter, KanbanBoardView.
 //	private Display display;
 	private KanbanBoardView<Board> view;
 	private Board kanbanBoard;
-	private String viewId;
+	private String viewRequestUrlId;
 	
 //	@Inject
 //	public KanbanBoardPresenter(KanbanBoardServiceAsync rpcService, EventBus eventBus, Display display) {
@@ -42,13 +42,13 @@ public class KanbanBoardPresenter implements AbstractPresenter, KanbanBoardView.
 	
 	@Inject
 	public KanbanBoardPresenter(KanbanBoardServiceAsync rpcService, EventBus eventBus, KanbanBoardView<Board> view) {
-		viewId = Location.getParameter("id");
+		viewRequestUrlId = Location.getParameter("id");
 		this.service = rpcService;
 		this.eventBus = eventBus;
 		this.view = view;
 		
 		bind();
-		loadView(viewId);
+		loadKanbanBoardView(viewRequestUrlId);
 	}
 	
 	public void bind () {
@@ -61,12 +61,12 @@ public class KanbanBoardPresenter implements AbstractPresenter, KanbanBoardView.
 		container.add(view.asWidget()); 	// container.add(display.asWidget()); 
 	}
 	
-	public void loadView(String id) {
+	public void loadKanbanBoardView(String requestViewUrlId) {
 		view.maskView(true);
-		service.getKanbanBoard(id, new AsyncCallback<Board>() {
+		service.getKanbanBoard(requestViewUrlId, new AsyncCallback<Board>() {
 			@Override
 			public void onSuccess(Board board) {
-				loadKanbanBoardView(board);
+				loadView(board);
 				onLoadedBoard();
 			}
 			
@@ -78,7 +78,7 @@ public class KanbanBoardPresenter implements AbstractPresenter, KanbanBoardView.
 		});
 	}
 	
-	public void loadKanbanBoardView(Board board) {
+	private void loadView(Board board) {
 		kanbanBoard = board;
 		view.setViewTitle(kanbanBoard.getDescription()); 	// KanbanBoardPresenter.this.display.setData(board);
 		view.setData(board);
@@ -90,8 +90,11 @@ public class KanbanBoardPresenter implements AbstractPresenter, KanbanBoardView.
 	}
 
 
-	public String getViewId() {
-		return viewId;
+	public String getViewRequestUrlId() {
+		return viewRequestUrlId;
 	}
 	
+	public void onError(String errorMessage) {
+		view.loadError(errorMessage);
+	}
 }

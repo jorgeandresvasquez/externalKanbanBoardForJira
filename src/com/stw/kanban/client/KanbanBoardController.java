@@ -7,7 +7,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -45,36 +44,28 @@ public class KanbanBoardController implements AbstractPresenter, ValueChangeHand
 		
 		//History management
 		if ("".equals(History.getToken())) {
+			History.newItem("fList");
+		} 
+		else if ("fList".equals(History.getToken())){
 			History.newItem("list");
-		} else {
+		}
+		else {
 			History.fireCurrentHistoryState();
 		}
-	}
-	
-	private void bind() {
-		History.addValueChangeHandler(this);
-		// Setup timer to refresh list automatically.
-		service.getConfig(new AsyncCallback<ConfigOptions>() {
-			
-			@Override
-			public void onSuccess(ConfigOptions result) {
-				initializeTimer(result.getRefreshInverval());
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				Window.alert("Error fetching refreshInterval value");
-			}
-		});
-		
-		//Bind all other handlers here, if any...
+		setupRemoteAppConfig();
 	}
 	
 	private void initializeTimer(int refreshInterval) {
 		Timer refreshTimer = new Timer() {
 			@Override
 			public void run() {
-				kanbanBoardPresenter.loadView(kanbanBoardPresenter.getViewId());
+				if ("".equals(History.getToken())){
+					History.newItem("fList");
+				}
+				else {
+					kanbanBoardPresenter.loadKanbanBoardView(kanbanBoardPresenter.getViewRequestUrlId());
+					History.newItem("list");
+				}
 			}
 		};
 		refreshTimer.scheduleRepeating(refreshInterval);
@@ -85,11 +76,11 @@ public class KanbanBoardController implements AbstractPresenter, ValueChangeHand
 	    
 	    if (token != null) {
 	      
-	    	if (token.equals("list")) {
+	    	if (token.equals("list") || token.equals("fList")) {
 	    		GWT.runAsync(new RunAsyncCallback() {
 	        	@Override
 	        	public void onFailure(Throwable caught) {
-	        		Window.alert(caught.getMessage());
+	        		kanbanBoardPresenter.onError(caught.getMessage());
 	        	}
 	        	@Override
 	        	public void onSuccess() {
@@ -108,6 +99,27 @@ public class KanbanBoardController implements AbstractPresenter, ValueChangeHand
 	    }
 	} 
 	
+	private void bind() {
+		History.addValueChangeHandler(this);
+		//Bind all other handlers here, if any...
+	}
+	
+	public void setupRemoteAppConfig() {
+		// Setup timer to refresh list automatically.
+		service.getConfig(new AsyncCallback<ConfigOptions>() {
+			
+			@Override
+			public void onSuccess(ConfigOptions result) {
+				kanbanBoardPresenter.execute(container);
+				initializeTimer(result.getRefreshInverval());
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				kanbanBoardPresenter.onError(caught.getMessage());
+			}
+		});
+	}
 
 /*	Would we have chosen to not use the generic KannabBoardView, the onValueChange method would
  *  look something like this. 

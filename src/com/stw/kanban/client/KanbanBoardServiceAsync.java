@@ -6,7 +6,7 @@ import com.stw.kanban.client.entities.ConfigOptions;
 
 public interface KanbanBoardServiceAsync {
 
-	void getKanbanBoard(String id, AsyncCallback<Board> callback);
+	void getKanbanBoard(String requestUrlId, AsyncCallback<Board> callback);
 	
 	void getConfig(AsyncCallback<ConfigOptions> callback);
 
