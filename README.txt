@@ -5,7 +5,8 @@ This project provides a KanbanBoard view for the Jira Issue tracking system (htt
 It uses the following libraries and frameworks:
 
 -GWT for the presentation layer
--GUICE as the Dependency Injection Engine
+-GUICE as the Dependency Injection Engine for the server side
+-GIN as the Dependency Injection Engine for the client side
 -Axis1.4 to communicated with Jira through SOAP (Note:  Axis2 wasn't used since it is still not well supported by Jira)
 
 
