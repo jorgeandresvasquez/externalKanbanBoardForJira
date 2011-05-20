@@ -52,7 +52,7 @@ public class JiraManagerImpl implements JiraManager {
 					jiraIssue.setKey(remoteIssue.getKey());
 					jiraIssue.setSummary(remoteIssue.getSummary());
 					jiraIssue.setProject(jiraCache.getProjectByKey(remoteIssue.getProject(), id));
-					boardColumn.addJiraIssue(jiraIssue);
+					boardColumn.addIssue(jiraIssue);
 				}
 			}
 			outputBoard.addColumn(boardColumn);

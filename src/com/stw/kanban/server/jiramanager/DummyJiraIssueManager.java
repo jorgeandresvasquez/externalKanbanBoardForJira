@@ -21,18 +21,18 @@ public class DummyJiraIssueManager implements JiraManager {
 		BoardColumn column = new BoardColumn();
 		column.setName("Ready For Dev");
 		
-		column.addJiraIssue(stubJiraIssue());
-		column.addJiraIssue(stubJiraIssue());
+		column.addIssue(stubJiraIssue());
+		column.addIssue(stubJiraIssue());
 		
 		BoardColumn column2 = new BoardColumn();
 		column2.setName("In Development");
-		column2.addJiraIssue(stubJiraIssue());
-		column2.addJiraIssue(stubJiraIssue());
-		column2.addJiraIssue(stubJiraIssue());
+		column2.addIssue(stubJiraIssue());
+		column2.addIssue(stubJiraIssue());
+		column2.addIssue(stubJiraIssue());
 		
 		BoardColumn column3 = new BoardColumn();
 		column3.setName("Code Review");
-		column3.addJiraIssue(stubJiraIssue());
+		column3.addIssue(stubJiraIssue());
 		
 		board.addColumn(column);
 		board.addColumn(column2);

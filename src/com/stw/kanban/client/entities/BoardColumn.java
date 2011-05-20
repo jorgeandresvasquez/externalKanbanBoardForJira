@@ -26,11 +26,7 @@ public class BoardColumn implements KanbanBoardColumn, Serializable {
 	
 	@Override
 	public void addIssue(StickyNoteIssue issue) {
-		JiraIssue jiraIssue = (JiraIssue) issue;
-		addJiraIssue(jiraIssue);
+		issues.add(issue);
 	}
 	
-	public void addJiraIssue(JiraIssue jiraIssue) {
-		issues.add(jiraIssue);
-	}
 }

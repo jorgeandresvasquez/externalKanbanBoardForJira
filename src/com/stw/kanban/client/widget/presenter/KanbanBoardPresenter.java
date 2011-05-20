@@ -48,7 +48,7 @@ public class KanbanBoardPresenter implements AbstractPresenter, KanbanBoardView.
 		this.view = view;
 		
 		bind();
-		loadKanbanBoardView(viewRequestUrlId);
+//		loadKanbanBoardView(viewRequestUrlId);
 	}
 	
 	public void bind () {
@@ -59,6 +59,7 @@ public class KanbanBoardPresenter implements AbstractPresenter, KanbanBoardView.
 	public void execute(HasWidgets container) {
 		container.clear();
 		container.add(view.asWidget()); 	// container.add(display.asWidget()); 
+		loadKanbanBoardView(viewRequestUrlId);
 	}
 	
 	public void loadKanbanBoardView(String requestViewUrlId) {
