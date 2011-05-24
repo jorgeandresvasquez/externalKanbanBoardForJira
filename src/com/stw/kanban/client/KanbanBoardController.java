@@ -7,11 +7,13 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.stw.kanban.client.entities.Board;
 import com.stw.kanban.client.entities.ConfigOptions;
+import com.stw.kanban.client.widget.gin.RequestUrlId;
 import com.stw.kanban.client.widget.presenter.AbstractPresenter;
 import com.stw.kanban.client.widget.presenter.KanbanBoardPresenter;
 import com.stw.kanban.client.widget.view.KanbanBoardViewImpl;
@@ -20,12 +22,11 @@ import com.stw.kanban.resources.KanbanBoardResources;
 public class KanbanBoardController implements AbstractPresenter, ValueChangeHandler<String> {
 
 	private final EventBus eventBus;
-	@Inject
 	private KanbanBoardServiceAsync service;
 	private HasWidgets container;
 	private KanbanBoardViewImpl<Board> kanbanBoardView;
-	@Inject
 	private final KanbanBoardResources resources;
+	
 	@Inject
 	KanbanBoardPresenter kanbanBoardPresenter;
 
@@ -63,7 +64,7 @@ public class KanbanBoardController implements AbstractPresenter, ValueChangeHand
 					History.newItem("fList");
 				}
 				else {
-					kanbanBoardPresenter.loadKanbanBoardView(kanbanBoardPresenter.getViewRequestUrlId());
+					kanbanBoardPresenter.getRemoteLoadKanbanBoardView(kanbanBoardPresenter.getRequestUrlId());
 					History.newItem("list");
 				}
 			}
@@ -119,6 +120,18 @@ public class KanbanBoardController implements AbstractPresenter, ValueChangeHand
 				kanbanBoardPresenter.onError(caught.getMessage());
 			}
 		});
+	}
+	
+	public EventBus getEventBus() {
+		return eventBus;
+	}
+	
+	public KanbanBoardViewImpl<Board> getKanbanBoardView() {
+		return kanbanBoardView;
+	}
+	
+	public KanbanBoardServiceAsync getService() {
+		return service;
 	}
 
 /*	Would we have chosen to not use the generic KannabBoardView, the onValueChange method would

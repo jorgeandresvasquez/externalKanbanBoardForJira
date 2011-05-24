@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.stw.kanban.client.KanbanBoardServiceAsync;
 import com.stw.kanban.client.entities.Board;
+import com.stw.kanban.client.widget.gin.RequestUrlId;
 import com.stw.kanban.client.widget.view.KanbanBoardView;
 
 
@@ -28,7 +29,8 @@ public class KanbanBoardPresenter implements AbstractPresenter, KanbanBoardView.
 //	private Display display;
 	private KanbanBoardView<Board> view;
 	private Board kanbanBoard;
-	private String viewRequestUrlId;
+//	private String viewRequestUrlId;
+	private String requestUrlId;
 	
 //	@Inject
 //	public KanbanBoardPresenter(KanbanBoardServiceAsync rpcService, EventBus eventBus, Display display) {
@@ -41,14 +43,14 @@ public class KanbanBoardPresenter implements AbstractPresenter, KanbanBoardView.
 //	}
 	
 	@Inject
-	public KanbanBoardPresenter(KanbanBoardServiceAsync rpcService, EventBus eventBus, KanbanBoardView<Board> view) {
-		viewRequestUrlId = Location.getParameter("id");
+	public KanbanBoardPresenter(@RequestUrlId String requestUrlId, KanbanBoardServiceAsync rpcService, EventBus eventBus, KanbanBoardView<Board> view) {
+//		viewRequestUrlId = Location.getParameter("id");
+		this.requestUrlId = requestUrlId;
 		this.service = rpcService;
 		this.eventBus = eventBus;
 		this.view = view;
 		
 		bind();
-//		loadKanbanBoardView(viewRequestUrlId);
 	}
 	
 	public void bind () {
@@ -59,16 +61,17 @@ public class KanbanBoardPresenter implements AbstractPresenter, KanbanBoardView.
 	public void execute(HasWidgets container) {
 		container.clear();
 		container.add(view.asWidget()); 	// container.add(display.asWidget()); 
-		loadKanbanBoardView(viewRequestUrlId);
+//		getRemoteLoadKanbanBoardView(viewRequestUrlId);
+		getRemoteLoadKanbanBoardView(Location.getParameter(requestUrlId));
 	}
 	
-	public void loadKanbanBoardView(String requestViewUrlId) {
+	public void getRemoteLoadKanbanBoardView(String requestViewUrlId) {
 		view.maskView(true);
 		service.getKanbanBoard(requestViewUrlId, new AsyncCallback<Board>() {
 			@Override
 			public void onSuccess(Board board) {
 				loadView(board);
-				onLoadedBoard();
+				onBoardLoaded();
 			}
 			
 			@Override
@@ -79,23 +82,30 @@ public class KanbanBoardPresenter implements AbstractPresenter, KanbanBoardView.
 		});
 	}
 	
-	private void loadView(Board board) {
-		kanbanBoard = board;
-		view.setViewTitle(kanbanBoard.getDescription()); 	// KanbanBoardPresenter.this.display.setData(board);
-		view.setData(board);
+	public void loadView(Board board) {
+		if (board == null) {
+			return;
+		} else {
+			kanbanBoard = board;
+			view.setViewTitle(kanbanBoard.getDescription()); 	// KanbanBoardPresenter.this.display.setData(board);
+			view.setData(board);
+		}
 	}
 
 	@Override
-	public void onLoadedBoard() {
+	public void onBoardLoaded() {
 		view.maskView(false);
-	}
-
-
-	public String getViewRequestUrlId() {
-		return viewRequestUrlId;
 	}
 	
 	public void onError(String errorMessage) {
 		view.loadError(errorMessage);
+	}
+	
+	public String getRequestUrlId() {
+		return requestUrlId;
+	}
+	
+	public KanbanBoardView<Board> getKanbanBoardView() {
+		return view;
 	}
 }
