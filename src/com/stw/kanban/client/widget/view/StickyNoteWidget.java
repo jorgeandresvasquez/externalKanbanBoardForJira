@@ -36,6 +36,7 @@ public class StickyNoteWidget extends Composite {
 	private final StickyNoteWidgetOptions options;
 	private final StickyNoteWidgetUiBinder uiBinder;
 	private String stickyNoteKey;
+	private String stickyNoteStyleName;
 	
 //	/**
 //	 * Creates a Sticky note widget with default {@link com.stw.kanban.client.widget.StickyNoteWidgetOptions}/
@@ -62,10 +63,9 @@ public class StickyNoteWidget extends Composite {
 			this.uiBinder = uiBinder;
 		}
 		this.options = options;
-		Widget widget = this.uiBinder.createAndBindUi(this);
-		widget.setStyleName(resources.style().stickyNote());
 		initWidget(this.uiBinder.createAndBindUi(this));
-		
+		stickyNoteStyleName = resources.style().stickyNote();
+		this.setStyleName(stickyNoteStyleName);
 	}
 	
 	/* The Composite Interface: This is the external composite interface 
@@ -84,12 +84,28 @@ public class StickyNoteWidget extends Composite {
 		return assignee;
 	}
 	
+	public StickyNoteWidgetOptions getStickyNoteWidgetOptions() {
+		return options;
+	} 
+	
+	public String getStyleName() {
+		return stickyNoteStyleName;
+	} 
+	
 	public String getStickyNoteKey() {
 		return stickyNoteKey;
 	}
 	
-	public StickyNoteWidgetOptions getStickyNoteWidgetOptions() {
-		return options;
+	public HasText getTitelName() {
+		return stickyHeaderWidget.getTitel();
+	}
+	
+	public String getTypeImageUrl() {
+		return stickyHeaderWidget.getTypeImageUrl();
+	}
+	
+	public String getPriorityImageUrl() {
+		return stickyHeaderWidget.getPriorityImageUrl();
 	}
 	
 	/**
@@ -106,7 +122,7 @@ public class StickyNoteWidget extends Composite {
 		
 		//Setting data in the internal StickyHeader widget
 		stickyNoteKey = issue.getKey() + "(" + issue.getProject().getName() + ")";
-		stickyHeaderWidget.setTitelName(stickyNoteKey);
+		stickyHeaderWidget.setTitel(stickyNoteKey);
 
 		if (issue.getIssueType()  != null) {
 			Image typeImage = new Image();

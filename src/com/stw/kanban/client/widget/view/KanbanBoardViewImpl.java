@@ -67,13 +67,12 @@ public class KanbanBoardViewImpl<T> extends Composite implements KanbanBoardView
 	
 	public void onLoadedBoard() {
 		if (presenter != null) {
-			presenter.onLoadedBoard();
+			presenter.onBoardLoaded();
 		}
 	}
 		
 	@Override
 	public void setData(Board board) {
-		
 		boardColumnPanel.clear();
 		int x = 0;
 		for (BoardColumn boardColumn : board.getColumns()) {
@@ -90,6 +89,11 @@ public class KanbanBoardViewImpl<T> extends Composite implements KanbanBoardView
 	public void setPresenter(Presenter<T> presenter) {
 		this.presenter = presenter;
 	}
+	
+	@Override
+	public Presenter<T> getPresenter() {
+		return presenter;
+	}
 
 	@Override
 	public void maskView(boolean mask) {
@@ -104,13 +108,23 @@ public class KanbanBoardViewImpl<T> extends Composite implements KanbanBoardView
 	}
 	
 	@Override
-	public void setViewTitle(String title) {
-		Window.setTitle(title);
+	public void loadError(String errorMessage) {
+		Window.setTitle("Kanbanboard Error");
+		Window.alert("An error occurd: " + errorMessage);
 	}
 	
 	@Override
-	public void loadError(String errorMessage) {
-		Window.alert("An error occurd: " + errorMessage);
+	public void setViewTitle(String title) {
+		Window.setTitle(title);
+	}
+
+	@Override
+	public String getViewTitle() {
+		return Window.getTitle();
+	}
+	
+	public KanbanBoardResources getKanbanBoardResources() {
+		return resources;
 	}
 	
 	

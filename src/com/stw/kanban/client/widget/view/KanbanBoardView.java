@@ -6,16 +6,20 @@ import com.stw.kanban.client.entities.Board;
 public interface KanbanBoardView<T> {
 
 	public interface Presenter<T> {
-		void onLoadedBoard();
+		void onBoardLoaded();
 	}
 	
 	void setPresenter(Presenter<T> presenter);
+	
+	Presenter<T> getPresenter();
 	
 	void setData(Board board);
 	
 	void maskView(boolean show);
 	
 	void setViewTitle(String title);
+	
+	String getViewTitle();
 	
 	void loadError(String errorMessage);
 	

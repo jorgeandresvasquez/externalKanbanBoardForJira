@@ -5,6 +5,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiConstructor;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -54,14 +55,27 @@ public class NoteHeader extends Composite {
 		// title.setText(titleName) or via setTitleName(titleName);
 	}
 	
-	protected Label getTitelName() {
+	/* The Composite Interface: This is the external composite interface 
+	 * we have chosen to expose for this widget. */
+	/**
+	 * Gets the summary text for the Sticky Note.
+	 * */
+	public HasText getTitel() {
 		return title;
 	}
 	
-	protected void setTitelName(String titleName) {
+	public void setTitel(String titleName) {
 		title.setText(titleName);
 	}
 	
+	public String getTypeImageUrl() {
+		return typeImage.getUrl();
+	}
+	
+	public String getPriorityImageUrl() {
+		return priorityImage.getUrl();
+	}
+
 	/**
 	 * Sets the issue type image in the sticky note. 
 	 * The default image is displayed if the method is never called. 
@@ -71,7 +85,7 @@ public class NoteHeader extends Composite {
 	 * 
 	 * @see com.google.gwt.user.client.ui.Image
 	 * */
-	protected void setTypeImage(Image typeImage) {
+	public void setTypeImage(Image typeImage) {
 		if (typeImage == null) {
 			this.typeImage.setUrl(this.resources.emptyImageWhite().getURL());
 			this.typeImage.setVisible(false);
@@ -91,7 +105,7 @@ public class NoteHeader extends Composite {
 	 * 
 	 * @see com.google.gwt.user.client.ui.Image
 	 * */
-	protected void setPriorityImage(Image priorityImage) {
+	public void setPriorityImage(Image priorityImage) {
 		if (priorityImage == null) {
 			this.priorityImage.setUrl(this.resources.emptyImageWhite().getURL());
 			this.priorityImage.setVisible(false);
