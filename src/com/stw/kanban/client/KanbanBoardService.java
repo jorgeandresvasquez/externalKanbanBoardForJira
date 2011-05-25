@@ -11,4 +11,6 @@ public interface KanbanBoardService extends RemoteService {
 	Board getKanbanBoard(String id) throws Exception;
 	
 	ConfigOptions getConfig();
+	
+	
 }

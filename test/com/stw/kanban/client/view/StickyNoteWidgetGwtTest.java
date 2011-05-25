@@ -5,6 +5,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.google.gwt.core.client.GWT;
+import com.stw.kanban.client.AbstractKanbanBoardGwtTestCase;
 import com.stw.kanban.client.entities.StickyNoteIssue;
 import com.stw.kanban.client.widget.StickyNoteWidgetOptions;
 import com.stw.kanban.client.widget.view.StickyNoteWidget;

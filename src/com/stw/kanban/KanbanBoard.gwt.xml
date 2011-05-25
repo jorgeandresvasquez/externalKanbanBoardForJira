@@ -17,6 +17,7 @@
 	
 	<!-- Here we identify all packages that contain source code that is to be compiled by GWT 
 	Exclude pattern: <source path='client' excludes="**/*Test.java,**/Mock*.java,**/*Mock.java" -->
+	<!-- TODO: Exclude the no GWTTestCases to avoid all warnings when launching the GWTTestCases! -->
 	<source path='client' excludes="**/*Activity*.java, **/*Place*.java" />
 	<source path='shared' />
 	<source path='resources' />

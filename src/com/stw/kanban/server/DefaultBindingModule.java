@@ -5,8 +5,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
 
-import javax.xml.rpc.ServiceException;
-
 import com.atlassian.jira.rpc.soap.client.JiraSoapService;
 import com.atlassian.jira.rpc.soap.client.JiraSoapServiceService;
 import com.atlassian.jira.rpc.soap.client.JiraSoapServiceServiceLocator;

@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
+import com.stw.kanban.client.AbstractKanbanBoardGwtTestCase;
 import com.stw.kanban.client.entities.BoardColumn;
 import com.stw.kanban.client.entities.StickyNoteIssue;
 import com.stw.kanban.client.widget.StickyNoteWidgetOptions;
