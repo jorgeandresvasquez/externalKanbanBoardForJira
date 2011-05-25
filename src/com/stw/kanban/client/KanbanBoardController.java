@@ -17,6 +17,7 @@ import com.stw.kanban.client.widget.gin.RequestUrlId;
 import com.stw.kanban.client.widget.presenter.AbstractPresenter;
 import com.stw.kanban.client.widget.presenter.KanbanBoardPresenter;
 import com.stw.kanban.client.widget.view.KanbanBoardViewImpl;
+import com.stw.kanban.client.widget.view.StickyNoteWidget.StickyNoteWidgetUiBinder;
 import com.stw.kanban.resources.KanbanBoardResources;
 
 public class KanbanBoardController implements AbstractPresenter, ValueChangeHandler<String> {
@@ -26,6 +27,7 @@ public class KanbanBoardController implements AbstractPresenter, ValueChangeHand
 	private HasWidgets container;
 	private KanbanBoardViewImpl<Board> kanbanBoardView;
 	private final KanbanBoardResources resources;
+	private StickyNoteWidgetUiBinder uiBinder;
 	
 	@Inject
 	KanbanBoardPresenter kanbanBoardPresenter;
@@ -36,6 +38,7 @@ public class KanbanBoardController implements AbstractPresenter, ValueChangeHand
 		this.eventBus = eventBus;
 		this.resources = resources;
 		this.resources.style().ensureInjected();
+		uiBinder = GWT.create(StickyNoteWidgetUiBinder.class);
 		bind();
 	}
 	
@@ -87,7 +90,7 @@ public class KanbanBoardController implements AbstractPresenter, ValueChangeHand
 	        	public void onSuccess() {
 	        		// lazily initialize our views, and keep them around to be reused
 	        		if (kanbanBoardView == null) {
-	        			kanbanBoardView = new KanbanBoardViewImpl<Board>(resources);
+	        			kanbanBoardView = new KanbanBoardViewImpl<Board>(resources, uiBinder);
 	              
 	        		}
 	        		kanbanBoardPresenter.execute(container);
@@ -95,7 +98,7 @@ public class KanbanBoardController implements AbstractPresenter, ValueChangeHand
 	    	});
 	      }
 	      else if (token.equals("add") || token.equals("edit")) {
-
+	    	  //TODO: Not yest implemented
 	      }
 	    }
 	} 
