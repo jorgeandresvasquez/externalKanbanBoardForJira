@@ -113,7 +113,7 @@ public class StickyNoteWidget extends Composite {
 	 * */
 	public void setData(StickyNoteIssue issue) {
 		if (issue == null) {
-			return;
+			throw new IllegalArgumentException("The application tried to set a sticky note without any data!");
 		}
 		summaryText.setText(issue.getSummary());
 		if (issue.getAssignee() != null) { 

@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.inject.Inject;
 import com.stw.kanban.client.entities.Board;
 import com.stw.kanban.client.entities.BoardColumn;
+import com.stw.kanban.client.widget.view.StickyNoteWidget.StickyNoteWidgetUiBinder;
 import com.stw.kanban.resources.KanbanBoardResources;
 
 /*
@@ -36,14 +37,16 @@ public class KanbanBoardViewImpl<T> extends Composite implements KanbanBoardView
 	private Presenter<T> presenter;
 	private Label lastUpdatedLabel;
 	private Image loadingMask;
+	private StickyNoteWidgetUiBinder uiBinder;
 	
 	@Inject
 	private KanbanBoardResources resources;
 		
 	@Inject		
-	public KanbanBoardViewImpl(KanbanBoardResources resources) {
+	public KanbanBoardViewImpl(KanbanBoardResources resources, StickyNoteWidgetUiBinder uiBinder) {
 		this.resources = resources;
 		this.resources.style().ensureInjected();
+		this.uiBinder = uiBinder;
 	
 		mainPanel = new VerticalPanel();
 		initWidget(mainPanel);
@@ -77,7 +80,7 @@ public class KanbanBoardViewImpl<T> extends Composite implements KanbanBoardView
 		int x = 0;
 		for (BoardColumn boardColumn : board.getColumns()) {
 			String style = (++x % 2 == 0) ? resources.style().borderColumnEven() : resources.style().borderColumnOdd();
-			BoardColumnWidget boardColumnWidget = new BoardColumnWidget(style, resources);
+			BoardColumnWidget boardColumnWidget = new BoardColumnWidget(style, resources, uiBinder);
 			boardColumnWidget.setData(boardColumn);
 			boardColumnPanel.add(boardColumnWidget);
 		}

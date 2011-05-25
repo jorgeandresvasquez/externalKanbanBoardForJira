@@ -2,7 +2,6 @@ package com.stw.kanban.client.widget.view;
 
 import java.util.ArrayList;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasText;
@@ -24,13 +23,14 @@ public class BoardColumnWidget extends Composite {
 	private final Label columnName;
 	private ArrayList<StickyNoteWidget> stickyNotes;
 	private VerticalPanel panel;
-	private static StickyNoteWidgetUiBinder binder;
+	private StickyNoteWidgetUiBinder uiBinder;
 	private KanbanBoardResources resources;
 	
 	@Inject //GIN Injection annotation for this particular string: interface BoardColumnStyleName
-	public BoardColumnWidget(@BoardColumnStyle String styleName, KanbanBoardResources resources) { 
+	public BoardColumnWidget(@BoardColumnStyle String styleName, KanbanBoardResources resources, StickyNoteWidgetUiBinder uiBinder) { 
 		this.resources = resources;
 		this.resources.style().ensureInjected();
+		this.uiBinder = uiBinder;
 		
 		panel = new VerticalPanel();
 		/* If you are not using the UiBinder to declare your widgets: 
@@ -49,7 +49,6 @@ public class BoardColumnWidget extends Composite {
 		} else {
 			panel.addStyleName(resources.style().borderColumnOdd());
 		}
-		binder = GWT.create(StickyNoteWidgetUiBinder.class);
 	}
 	
 	public HasText getColumnName() {
@@ -67,11 +66,14 @@ public class BoardColumnWidget extends Composite {
 	}
 	
 	public void setData(KanbanBoardColumn boardColumn) {
+		if (boardColumn == null) {
+			throw new IllegalArgumentException("The application tried to set a column without any data!");
+		}
 		columnName.setText(boardColumn.getName());
 		
 		StickyNoteWidget stickyNoteWidget = null;
 		for (StickyNoteIssue issue : boardColumn.getIssues()) {
-			stickyNoteWidget = new StickyNoteWidget(resources, new StickyNoteWidgetOptions(resources), binder);
+			stickyNoteWidget = new StickyNoteWidget(resources, new StickyNoteWidgetOptions(resources), uiBinder);
 			stickyNoteWidget.setData(issue);
 			stickyNotes.add(stickyNoteWidget);
 			panel.add(stickyNoteWidget);
